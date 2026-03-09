@@ -82,21 +82,21 @@ fun FirstScreen() {
                     }
                     context.startActivity(intent)
                 } else {
-                    Toast.makeText(context, "Please, enter text", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Пожалуйста, введите текст", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Go to SecondActivity")
+            Text("Открыть вторую Activity")
         }
         Button(
             onClick = {
                 if (text.isBlank()) {
-                    phoneError = "Enter phone number, please"
-                    Toast.makeText(context, "Enter phone number, please", Toast.LENGTH_SHORT).show()
+                    phoneError = "Пожалуйста, введите номер телефона"
+                    Toast.makeText(context, "Пожалуйста, введите номер телефона", Toast.LENGTH_SHORT).show()
                 } else if (!isValidPhoneNumber(text)) {
-                    phoneError = "Invalid phone number"
-                    Toast.makeText(context, "Incorrect phone number", Toast.LENGTH_SHORT).show()
+                    phoneError = "Некорректный телефонный номер"
+                    Toast.makeText(context, "Некорректный телефонный номер", Toast.LENGTH_SHORT).show()
                 } else {
                     phoneError = null
                     val intent = Intent(Intent.ACTION_DIAL).apply {
@@ -107,7 +107,7 @@ fun FirstScreen() {
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Call friend")
+            Text("Позвонить другу")
         }
 
         Button(
@@ -117,14 +117,14 @@ fun FirstScreen() {
                         type = "text/plain"
                         putExtra(Intent.EXTRA_TEXT, text)
                     }
-                    context.startActivity(Intent.createChooser(intent, "Share through..."))
+                    context.startActivity(Intent.createChooser(intent, "Поделиться через..."))
                 } else {
-                    Toast.makeText(context, "Enter text, please", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Пожалуйста, введите текст", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Share text")
+            Text("Поделиться текстом")
         }
     }
 }

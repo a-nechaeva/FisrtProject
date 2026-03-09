@@ -46,11 +46,6 @@ fun Greeting2(name: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Received text:",
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
             text = name,
             style = MaterialTheme.typography.headlineMedium
         )
