@@ -70,7 +70,7 @@ fun FirstScreen() {
                 phoneError = null
             },
             label = {Text("Edit Text")},
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             isError = phoneError != null,
             supportingText = phoneError?.let{{Text(it, color = MaterialTheme.colorScheme.error)}}
         )
@@ -85,7 +85,7 @@ fun FirstScreen() {
                     Toast.makeText(context, "Please, enter text", Toast.LENGTH_SHORT).show()
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Go to SecondActivity")
         }
