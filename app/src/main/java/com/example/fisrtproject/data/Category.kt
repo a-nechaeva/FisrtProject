@@ -50,7 +50,7 @@ enum class Category {
     @SerialName("Финансы")
     FINANCE,
 
-    @SerialName("Путешествия")
+    @SerialName("Транспорт")
     TRAVEL,
 
     @SerialName("Карты")
@@ -62,6 +62,6 @@ enum class Category {
     @SerialName("Покупки")
     SHOPPING,
 
-    @SerialName("Утилиты")
+    @SerialName("Инструменты")
     UTILITIES
 }
