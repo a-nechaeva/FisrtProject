@@ -69,4 +69,8 @@ object AppData {
             description = "Яндекс -- поиск всегда под рукой"
         )
     )
+
+    fun getAppById(id: String): AppDetailsDto? {
+        return appList.find { it.id == id }
+    }
 }
