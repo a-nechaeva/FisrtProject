@@ -1,5 +1,7 @@
 package com.example.fisrtproject.data
 
+import com.example.fisrtproject.R
+
 object AppData {
     val appList = listOf(
         AppDetailsDto(
@@ -9,7 +11,7 @@ object AppData {
             category = Category.FINANCE,
             ageRating = 14,
             size = 85.5,
-            icon = "", // svg использовать
+            icon = R.drawable.sber, // svg использовать
             screenshots = listOf(), //png сделать библиотеку с картинками из сети, а не из памяти
             description = "Больше чем банк"
         ),
@@ -20,7 +22,7 @@ object AppData {
             category = Category.UTILITIES,
             ageRating = 14,
             size = 85.5,
-            icon = "",
+            icon = R.drawable.yandex_br,
             screenshots = listOf(),
             description = "Быстрый и безопасный браузер",
         ),
@@ -31,7 +33,7 @@ object AppData {
             category = Category.UTILITIES,
             ageRating = 14,
             size = 85.5,
-            icon = "",
+            icon = R.drawable.mailru,
             screenshots = listOf(),
             description = "Почтовый клиент для любых ящиков"
         ),
@@ -42,7 +44,7 @@ object AppData {
             category = Category.TRAVEL,
             ageRating = 14,
             size = 85.5,
-            icon = "",
+            icon = R.drawable.navigator,
             screenshots = listOf(),
             description = "Парковки и заправки — по пути"
         ),
@@ -53,7 +55,7 @@ object AppData {
             category = Category.UTILITIES,
             ageRating = 14,
             size = 85.5,
-            icon = "",
+            icon = R.drawable.mts,
             screenshots = listOf(),
             description = "Мой МТС — центр экосистемы МТС"
         ),
@@ -64,7 +66,7 @@ object AppData {
             category = Category.UTILITIES,
             ageRating = 14,
             size = 85.5,
-            icon = "",
+            icon = R.drawable.yandex,
             screenshots = listOf(),
             description = "Яндекс — поиск всегда под рукой"
         )
