@@ -58,7 +58,7 @@ fun AppListItem(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = app.developer,
+                    text = app.category.displayName,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,

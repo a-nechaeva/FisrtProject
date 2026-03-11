@@ -4,64 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class Category {
-    @SerialName("Приложения")
-    APP,
-
-    @SerialName("Игры")
-    GAME,
-
-    @SerialName("Производительность")
-    PRODUCTIVITY,
-
-    @SerialName("Социальные сети")
-    SOCIAL,
-
-    @SerialName("Образование")
-    EDUCATION,
-
-    @SerialName("Развлечения")
-    ENTERTAINMENT,
-
-    @SerialName("Музыка")
-    MUSIC,
-
-    @SerialName("Видео")
-    VIDEO,
-
-    @SerialName("Фотография")
-    PHOTOGRAPHY,
-
-    @SerialName("Здоровье")
-    HEALTH,
-
-    @SerialName("Спорт")
-    SPORTS,
-
-    @SerialName("Новости")
-    NEWS,
-
-    @SerialName("Книги")
-    BOOKS,
-
-    @SerialName("Бизнес")
-    BUSINESS,
-
+enum class Category (val displayName: String) {
     @SerialName("Финансы")
-    FINANCE,
+    FINANCE("Финансы"),
 
     @SerialName("Транспорт")
-    TRAVEL,
-
-    @SerialName("Карты")
-    MAPS,
-
-    @SerialName("Еда")
-    FOOD,
-
-    @SerialName("Покупки")
-    SHOPPING,
+    TRAVEL("Транспорт"),
 
     @SerialName("Инструменты")
-    UTILITIES
+    UTILITIES("Инструменты");
+
 }

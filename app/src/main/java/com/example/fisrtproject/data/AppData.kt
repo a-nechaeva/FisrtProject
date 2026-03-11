@@ -15,7 +15,7 @@ object AppData {
         ),
         AppDetailsDto(
             id = "2",
-            name = "Яндекс.Браузер -- с Алисой",
+            name = "Яндекс.Браузер — с Алисой",
             developer = "",
             category = Category.UTILITIES,
             ageRating = 14,
@@ -44,7 +44,7 @@ object AppData {
             size = 85.5,
             icon = "",
             screenshots = listOf(),
-            description = "Парковки и заправки -- по пути"
+            description = "Парковки и заправки — по пути"
         ),
         AppDetailsDto(
             id = "5",
@@ -55,18 +55,18 @@ object AppData {
             size = 85.5,
             icon = "",
             screenshots = listOf(),
-            description = "Мой МТС -- центр экосистемы МТС"
+            description = "Мой МТС — центр экосистемы МТС"
         ),
         AppDetailsDto(
             id = "6",
-            name = "Яндекс -- с Алисой",
+            name = "Яндекс — с Алисой",
             developer = "",
             category = Category.UTILITIES,
             ageRating = 14,
             size = 85.5,
             icon = "",
             screenshots = listOf(),
-            description = "Яндекс -- поиск всегда под рукой"
+            description = "Яндекс — поиск всегда под рукой"
         )
     )
 

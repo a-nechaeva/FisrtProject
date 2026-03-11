@@ -1,6 +1,5 @@
 package com.example.fisrtproject.data
 
-import com.example.fisrtproject.data.Category
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
