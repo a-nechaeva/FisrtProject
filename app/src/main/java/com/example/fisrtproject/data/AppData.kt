@@ -11,8 +11,8 @@ object AppData {
             category = Category.FINANCE,
             ageRating = 14,
             size = 85.5,
-            icon = R.drawable.sber, // svg использовать
-            screenshots = listOf(), //png сделать библиотеку с картинками из сети, а не из памяти
+            icon = R.drawable.sber,
+            screenshots = listOf(),
             description = "Больше чем банк"
         ),
         AppDetailsDto(

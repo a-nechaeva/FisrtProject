@@ -10,7 +10,6 @@ data class AppDetailsDto(
     val category: Category,
     val ageRating: Int,
     val size: Double,
-    //@SerialName("iconUrl")
     val icon: Int,
     val screenshots: List<String>? = null,
     val description: String,
