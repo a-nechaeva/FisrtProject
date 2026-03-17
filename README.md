@@ -1,4 +1,4 @@
-# 🌆: Домашняя работа 4
+# 🌆 Домашняя работа 4
 _Внедрить presentation паттерн в свое приложение._
 
 * Внедрен presentation pattern Jetpack ViewModel
