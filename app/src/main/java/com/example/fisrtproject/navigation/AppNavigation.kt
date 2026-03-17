@@ -1,6 +1,7 @@
 package com.example.fisrtproject.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -9,6 +10,7 @@ import androidx.navigation.navArgument
 import com.example.fisrtproject.data.AppData
 import com.example.fisrtproject.ui.screens.AppDetailScreen
 import com.example.fisrtproject.ui.screens.AppListScreen
+import com.example.fisrtproject.ui.viewmodels.AppListViewModel
 
 sealed class Screen(val route: String) {
     object AppList : Screen("app_list")
@@ -25,10 +27,13 @@ fun AppNavigation(
         startDestination = Screen.AppList.route
     ) {
         composable(Screen.AppList.route) {
+            val viewModel: AppListViewModel = viewModel()
+
             AppListScreen(
                 onAppClick = { appId ->
                     navController.navigate(Screen.AppDetail.createRoute(appId))
-                }
+                },
+                viewModel = viewModel
             )
         }
         composable(
@@ -50,7 +55,8 @@ fun AppNavigation(
                 )
             } else {
                 AppListScreen(
-                    onAppClick = { navController.popBackStack() }
+                    onAppClick = { navController.popBackStack() },
+                    viewModel = viewModel()
                 )
             }
         }

@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
     //implementation("androidx.compose.material:material-icons-extended:1.6.1")
     implementation("androidx.navigation:navigation-compose:2.7.6")
     //implementation(libs.androidx.material3)
