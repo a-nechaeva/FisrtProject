@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -18,16 +19,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fisrtproject.R
+import androidx.compose.runtime.*
 import com.example.fisrtproject.data.AppData
 import com.example.fisrtproject.ui.components.AppListItem
+import com.example.fisrtproject.ui.viewmodels.AppListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppListScreen(
-    onAppClick: (String) -> Unit
+    onAppClick: (String) -> Unit,
+    viewModel: AppListViewModel
 ) {
-    val apps = AppData.appList
+    val apps by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarState = remember { SnackbarHostState() }
     Scaffold(
         topBar = {
             TopAppBar(
