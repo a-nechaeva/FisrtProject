@@ -7,10 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.fisrtproject.data.AppData
-import com.example.fisrtproject.ui.screens.AppDetailScreen
-import com.example.fisrtproject.ui.screens.AppListScreen
-import com.example.fisrtproject.ui.viewmodels.AppListViewModel
+import com.example.fisrtproject.data.local.AppData
+import com.example.fisrtproject.presentation.screens.AppDetailScreen
+import com.example.fisrtproject.presentation.screens.AppListScreen
+import com.example.fisrtproject.presentation.viewmodels.AppListViewModel
 
 sealed class Screen(val route: String) {
     object AppList : Screen("app_list")

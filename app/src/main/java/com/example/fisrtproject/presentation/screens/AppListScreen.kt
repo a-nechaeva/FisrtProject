@@ -1,4 +1,4 @@
-package com.example.fisrtproject.ui.screens
+package com.example.fisrtproject.presentation.screens
 
 import androidx.compose.material3.Icon
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,9 +22,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.fisrtproject.R
-import com.example.fisrtproject.ui.components.AppListItem
-import com.example.fisrtproject.ui.viewmodels.AppListViewModel
-import com.example.fisrtproject.ui.viewmodels.UiEvent
+import com.example.fisrtproject.presentation.components.AppListItem
+import com.example.fisrtproject.presentation.viewmodels.AppListViewModel
+import com.example.fisrtproject.presentation.viewmodels.UiEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

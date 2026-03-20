@@ -1,5 +1,6 @@
-package com.example.fisrtproject.data
+package com.example.fisrtproject.data.model
 
+import com.example.fisrtproject.domain.model.Category
 import kotlinx.serialization.Serializable
 
 @Serializable

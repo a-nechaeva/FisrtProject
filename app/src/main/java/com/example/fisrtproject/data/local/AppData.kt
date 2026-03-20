@@ -1,6 +1,8 @@
-package com.example.fisrtproject.data
+package com.example.fisrtproject.data.local
 
 import com.example.fisrtproject.R
+import com.example.fisrtproject.domain.model.Category
+import com.example.fisrtproject.data.model.AppDetailsDto
 
 object AppData {
     val appList = listOf(

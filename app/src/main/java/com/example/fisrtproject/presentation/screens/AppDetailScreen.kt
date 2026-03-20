@@ -1,4 +1,4 @@
-package com.example.fisrtproject.ui.screens
+package com.example.fisrtproject.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,7 +35,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import com.example.fisrtproject.data.AppDetailsDto
+import com.example.fisrtproject.data.model.AppDetailsDto
 
 
 

@@ -1,4 +1,4 @@
-package com.example.fisrtproject.ui.components
+package com.example.fisrtproject.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import com.example.fisrtproject.data.AppDetailsDto
+import com.example.fisrtproject.data.model.AppDetailsDto
 
 @Composable
 fun AppListItem(

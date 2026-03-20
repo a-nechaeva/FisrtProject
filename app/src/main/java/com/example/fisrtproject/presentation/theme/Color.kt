@@ -1,4 +1,4 @@
-package com.example.fisrtproject.ui.theme
+package com.example.fisrtproject.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
