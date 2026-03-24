@@ -1,8 +1,6 @@
-# :city_sunrise: Домашняя работа 5
-_Научиться внедрять Clean Architecture в приложение._
+# 🌃: Домашняя работа 6
+_Научиться внедрять dependency injection в приложение._
 
-* Созданы data, domain, presentation слои
-* Созданы в Presentation — верстка, ViewModel
-* Вынесены в Data хардкод данные
-* Создан Repository, который возвращает данные 
-* Данные изначально в DTO, конвертируются через Mapper в Domain model
+* Добавлен DI в приложение (Hilt)
+* Сделан один bind метод
+* Получена зависимость в ViewModel
