@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.navigation.compose.rememberNavController
 import com.example.fisrtproject.navigation.AppNavigation
-import com.example.fisrtproject.ui.theme.FisrtProjectTheme
+import com.example.fisrtproject.presentation.theme.FisrtProjectTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

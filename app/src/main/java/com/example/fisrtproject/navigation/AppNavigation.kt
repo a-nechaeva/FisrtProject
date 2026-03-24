@@ -1,16 +1,12 @@
 package com.example.fisrtproject.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.example.fisrtproject.data.AppData
-import com.example.fisrtproject.ui.screens.AppDetailScreen
-import com.example.fisrtproject.ui.screens.AppListScreen
-import com.example.fisrtproject.ui.viewmodels.AppListViewModel
+import com.example.fisrtproject.di.Dependencies
+import com.example.fisrtproject.presentation.screens.AppDetailScreen
+import com.example.fisrtproject.presentation.screens.AppListScreen
 
 sealed class Screen(val route: String) {
     object AppList : Screen("app_list")
@@ -19,15 +15,14 @@ sealed class Screen(val route: String) {
     }
 }
 @Composable
-fun AppNavigation(
-    navController: NavHostController
-) {
+fun AppNavigation(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = Screen.AppList.route
     ) {
         composable(Screen.AppList.route) {
-            val viewModel: AppListViewModel = viewModel()
+            // Берём ViewModel из нашей фабрики
+            val viewModel = Dependencies.getAppListViewModel()
 
             AppListScreen(
                 onAppClick = { appId ->
@@ -36,29 +31,16 @@ fun AppNavigation(
                 viewModel = viewModel
             )
         }
-        composable(
-            route = Screen.AppDetail.route,
-            arguments = listOf(
-                navArgument("appId") {
-                    type = NavType.StringType
-                }
-            )
-        ) {
-            backStackEntry ->
-            val appId = backStackEntry.arguments?.getString("appId")?:return@composable
-            val app = AppData.getAppById(appId)
+        composable(Screen.AppDetail.route) { backStackEntry ->
+            val appId = backStackEntry.arguments?.getString("appId") ?: return@composable
+            val viewModel = Dependencies.getAppDetailViewModel()
 
-            if (app != null) {
-                AppDetailScreen(
-                    app = app,
-                    onBackClick = { navController.popBackStack() }
-                )
-            } else {
-                AppListScreen(
-                    onAppClick = { navController.popBackStack() },
-                    viewModel = viewModel()
-                )
-            }
+            viewModel.loadApp(appId)
+
+            AppDetailScreen(
+                viewModel = viewModel,
+                onBackClick = { navController.popBackStack() }
+            )
         }
     }
 }

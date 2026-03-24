@@ -1,10 +1,10 @@
-package com.example.fisrtproject.data
+package com.example.fisrtproject.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class Category (val displayName: String) {
+enum class CategoryDto(val displayName: String) {
     @SerialName("Финансы")
     FINANCE("Финансы"),
 
@@ -12,6 +12,5 @@ enum class Category (val displayName: String) {
     TRAVEL("Транспорт"),
 
     @SerialName("Инструменты")
-    UTILITIES("Инструменты");
-
+    UTILITIES("Инструменты"),
 }

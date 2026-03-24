@@ -1,4 +1,4 @@
-package com.example.fisrtproject.data
+package com.example.fisrtproject.data.model
 
 import kotlinx.serialization.Serializable
 
@@ -7,7 +7,7 @@ data class AppDetailsDto(
     val id: String,
     val name: String,
     val developer: String,
-    val category: Category,
+    val category: CategoryDto,
     val ageRating: Int,
     val size: Double,
     val icon: Int,
