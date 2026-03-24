@@ -6,9 +6,4 @@ _Научиться внедрять Clean Architecture в приложение.
 * Вынесены в Data хардкод данные
 * Создан Repository, который возвращает данные 
 * Данные изначально в DTO, конвертируются через Mapper в Domain model
-# 🌆 Домашняя работа 4
-_Внедрить presentation паттерн в свое приложение._
 
-* Внедрен presentation pattern Jetpack ViewModel
-в список приложений
-* Добавлено отображение snack при клике на логотип RuStore
