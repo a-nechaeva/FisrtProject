@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.fisrtproject.domain.model.App
 import com.example.fisrtproject.domain.usecase.GetAppByIdUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AppDetailViewModel(
+@HiltViewModel
+class AppDetailViewModel @Inject constructor(
         private val getAppByIdUseCase: GetAppByIdUseCase
 ) : ViewModel() {
 
