@@ -2,8 +2,8 @@ package com.example.fisrtproject.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.fisrtproject.data.local.AppData
-import com.example.fisrtproject.data.model.AppDetailsDto
+import com.example.fisrtproject.domain.model.App
+import com.example.fisrtproject.domain.usecase.GetAppUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,9 +16,12 @@ sealed class UiEvent {
     data class ShowSnackbar(val message: String) : UiEvent()
 }
 
-class AppListViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow<List<AppDetailsDto>>(emptyList())
-    val uiState: StateFlow<List<AppDetailsDto>> = _uiState.asStateFlow()
+class AppListViewModel(
+    private val getAppUseCase: GetAppUseCase
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow<List<App>>(emptyList())
+    val uiState: StateFlow<List<App>> = _uiState.asStateFlow()
 
     private val _uiEvent = MutableSharedFlow<UiEvent>()
     val uiEvent: SharedFlow<UiEvent> = _uiEvent.asSharedFlow()
@@ -28,7 +31,9 @@ class AppListViewModel : ViewModel() {
     }
 
     private fun loadApps() {
-        _uiState.value = AppData.appList
+        viewModelScope.launch {
+            _uiState.value = getAppUseCase.execute()
+        }
     }
 
     fun onLogoClick() {

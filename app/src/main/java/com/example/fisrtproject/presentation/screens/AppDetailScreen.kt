@@ -33,18 +33,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import com.example.fisrtproject.data.model.AppDetailsDto
-
+import com.example.fisrtproject.domain.model.App
+import com.example.fisrtproject.presentation.viewmodels.AppDetailViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDetailScreen(
-    app: AppDetailsDto,
+    viewModel: AppDetailViewModel,
     onBackClick: () -> Unit
 ) {
+    val app by viewModel.uiState.observeAsState(initial = null)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -65,53 +69,112 @@ fun AppDetailScreen(
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = app.icon),
-                contentDescription = app.name,
-                modifier = Modifier.size(120.dp)
-                    .clip(RoundedCornerShape(16.dp)),
-                contentScale = ContentScale.Crop
+        app?.let { nonNullApp ->
+            AppDetailContent(
+                app = nonNullApp,
+                modifier = Modifier.padding(paddingValues)
             )
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Text(
-                text = app.name,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = app.developer,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        } ?: run {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    InfoRow(label = "Категория", value = app.category.displayName)
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                    InfoRow(label = "Возрастное ограничение", value = "${app.ageRating}+")
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                    InfoRow(label = "Размер", value = "${app.size} МБ")
-
-                }
+                Text(
+                    text = "Приложение не найдено",
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun AppDetailContent(
+    app: App,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = app.icon),
+            contentDescription = app.name,
+            modifier = Modifier
+                .size(120.dp)
+                .clip(RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.Crop
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = app.name,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = app.developer,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                InfoRow(
+                    label = "Категория",
+                    value = app.category.displayName
+                )
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                InfoRow(
+                    label = "Возрастное ограничение",
+                    value = "${app.ageRating}+"
+                )
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                InfoRow(
+                    label = "Размер",
+                    value = "${app.size} МБ"
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = "Описание",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = app.description,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+
+        if (!app.screenshots.isNullOrEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
+
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -120,46 +183,23 @@ fun AppDetailScreen(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "Описание",
+                        text = "Скриншоты (${app.screenshots.size})",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = app.description,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
-            if (!app.screenshots.isNullOrEmpty()) {
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
+                    app.screenshots.forEach { url ->
                         Text(
-                            text = "Скриншоты (${app.screenshots.size})",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
+                            text = " $url",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        app.screenshots.forEach { url ->
-                            Text(
-                                text = " $url",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                            Spacer(modifier = Modifier.height(4.dp))
-                        }
+                        Spacer(modifier = Modifier.height(4.dp))
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(32.dp))
         }
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 

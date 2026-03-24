@@ -1,8 +1,8 @@
-package com.example.fisrtproject.data.local
+package com.example.fisrtproject.data
 
 import com.example.fisrtproject.R
-import com.example.fisrtproject.domain.model.Category
 import com.example.fisrtproject.data.model.AppDetailsDto
+import com.example.fisrtproject.data.model.CategoryDto
 
 object AppData {
     val appList = listOf(
@@ -10,7 +10,7 @@ object AppData {
             id = "1",
             name = "СберБанк Онлайн - с Салютом",
             developer = "",
-            category = Category.FINANCE,
+            category = CategoryDto.FINANCE,
             ageRating = 14,
             size = 85.5,
             icon = R.drawable.sber,
@@ -21,7 +21,7 @@ object AppData {
             id = "2",
             name = "Яндекс.Браузер — с Алисой",
             developer = "",
-            category = Category.UTILITIES,
+            category = CategoryDto.UTILITIES,
             ageRating = 14,
             size = 85.5,
             icon = R.drawable.yandex_br,
@@ -32,7 +32,7 @@ object AppData {
             id = "3",
             name = "Почта Mail.ru",
             developer = "",
-            category = Category.UTILITIES,
+            category = CategoryDto.UTILITIES,
             ageRating = 14,
             size = 85.5,
             icon = R.drawable.mailru,
@@ -43,7 +43,7 @@ object AppData {
             id = "4",
             name = "Яндекс Навигатор",
             developer = "",
-            category = Category.TRAVEL,
+            category = CategoryDto.TRAVEL,
             ageRating = 14,
             size = 85.5,
             icon = R.drawable.navigator,
@@ -54,7 +54,7 @@ object AppData {
             id = "5",
             name = "Мой МТС",
             developer = "",
-            category = Category.UTILITIES,
+            category = CategoryDto.UTILITIES,
             ageRating = 14,
             size = 85.5,
             icon = R.drawable.mts,
@@ -65,7 +65,7 @@ object AppData {
             id = "6",
             name = "Яндекс — с Алисой",
             developer = "",
-            category = Category.UTILITIES,
+            category = CategoryDto.UTILITIES,
             ageRating = 14,
             size = 85.5,
             icon = R.drawable.yandex,

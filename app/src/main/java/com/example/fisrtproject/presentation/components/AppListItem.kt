@@ -23,15 +23,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
-import com.example.fisrtproject.data.model.AppDetailsDto
+import com.example.fisrtproject.domain.model.App
+
 
 @Composable
 fun AppListItem(
-    app: AppDetailsDto,
+    app: App,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -44,7 +47,8 @@ fun AppListItem(
             Image(
                 painter = painterResource(id = app.icon),
                 contentDescription = app.name,
-                modifier = Modifier.size(56.dp)
+                modifier = Modifier
+                    .size(56.dp)
                     .clip(RoundedCornerShape(16.dp)),
                 contentScale = ContentScale.Crop
             )
@@ -69,7 +73,6 @@ fun AppListItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-
                 Text(
                     text = app.description,
                     style = MaterialTheme.typography.bodySmall,
