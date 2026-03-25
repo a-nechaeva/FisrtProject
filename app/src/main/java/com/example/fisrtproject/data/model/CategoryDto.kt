@@ -30,9 +30,9 @@ enum class CategoryDto(val displayName: String) {
     @SerialName("Фото и видео")
     PHOTO("Фото и видео"),
 
-    @SerializedName("Еда и Напитки")
-    @SerialName("Еда и Напитки")
-    FOOD("Еда и Напитки"),
+    @SerializedName("Еда и напитки")
+    @SerialName("Еда и напитки")
+    FOOD("Еда и напитки"),
 
     @SerializedName("Образование")
     @SerialName("Образование")
@@ -63,12 +63,24 @@ enum class CategoryDto(val displayName: String) {
     NAVIGATION("Навигация"),
 
     @SerializedName("Общение")
-    @SerialName("Музыка")
-    COMMUNICATION("Музыка"),
+    @SerialName("Общение")
+    COMMUNICATION("Общение"),
 
     @SerializedName("Бизнес")
-    @SerialName("Игры")
-    BUSINESS("Игры"),
+    @SerialName("Бизнес")
+    BUSINESS("Бизнес"),
+
+    @SerializedName("Погода")
+    @SerialName("Погода")
+    WEATHER("Погода"),
+
+    @SerializedName("Развлечения")
+    @SerialName("Развлечения")
+    ENTERTAINMENT("Развлечения"),
+
+    @SerializedName("Книги и справочники")
+    @SerialName("Книги и справочники")
+    BOOKS("Книги и справочники"),
 
 
 }

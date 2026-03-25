@@ -32,7 +32,7 @@ object AppMapper {
             "Производительность" -> Category.PRODUCTIVITY
             "Здоровье и фитнес" -> Category.HEALTH
             "Фото и видео" -> Category.PHOTO
-            "Еда и Напитки" -> Category.FOOD
+            "Еда и напитки" -> Category.FOOD
             "Образование" -> Category.EDUCATION
             "Образ жизни" -> Category.LIFESTYLE
             "Шопинг" -> Category.SHOPPING
@@ -40,6 +40,11 @@ object AppMapper {
             "Музыка" -> Category.MUSIC
             "Игры" -> Category.GAMES
             "Навигация" -> Category.NAVIGATION
+            "Общение" -> Category.COMMUNICATION
+            "Бизнес" -> Category.BUSINESS
+            "Погода" -> Category.WEATHER
+            "Развлечения" -> Category.ENTERTAINMENT
+            "Книги и справочники" -> Category.BOOKS
 
             else -> Category.OTHER
         }

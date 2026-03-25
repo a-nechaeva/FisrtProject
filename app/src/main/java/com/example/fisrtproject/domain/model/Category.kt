@@ -9,7 +9,7 @@ enum class Category(val displayName: String) {
 
     PHOTO("Фото и видео"),
 
-    FOOD("Еда и Напитки"),
+    FOOD("Еда и напитки"),
     EDUCATION("Образование"),
     LIFESTYLE("Образ жизни"),
     SHOPPING("Шопинг"),
@@ -17,5 +17,10 @@ enum class Category(val displayName: String) {
     MUSIC("Музыка"),
     GAMES("Игры"),
     NAVIGATION("Навигация"),
+    COMMUNICATION("Общение"),
+    BUSINESS("Бизнес"),
+    WEATHER("Погода"),
+    ENTERTAINMENT("Развлечения"),
+    BOOKS("Книги и справочники"),
     OTHER("Другое");
 }
