@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class GetAppUseCase @Inject constructor(
     private val repository: AppRepository
 ) {
-     fun execute(): List<App> {
+    suspend fun execute(): Result<List<App>> {
         return repository.getAllApps()
     }
 }

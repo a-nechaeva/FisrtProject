@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class GetAppByIdUseCase @Inject constructor(
     private val repository: AppRepository
 ) {
-    fun execute(id: String): App? {
+    suspend fun execute(id: String): Result<App> {
         return repository.getAppById(id)
     }
 }

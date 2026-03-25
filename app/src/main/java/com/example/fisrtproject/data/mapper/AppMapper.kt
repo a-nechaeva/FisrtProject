@@ -1,21 +1,21 @@
 package com.example.fisrtproject.data.mapper
 
 import com.example.fisrtproject.data.model.AppDetailsDto
-import com.example.fisrtproject.data.model.CategoryDto
 import com.example.fisrtproject.domain.model.App
 import com.example.fisrtproject.domain.model.Category
 
 object AppMapper {
+
     fun toDomain(dto: AppDetailsDto): App {
         return App(
             id = dto.id,
             name = dto.name,
-            developer = dto.developer,
+            developer = dto.developer?.takeIf { it.isNotEmpty() } ?: "Неизвестный разработчик",
             category = dto.category.toCategoryDomain(),
             ageRating = dto.ageRating,
             size = dto.size,
-            icon = dto.icon,
-            screenshots = dto.screenshots,
+            iconUrl = dto.iconUrl,
+            screenshots = dto.screenshotUrlList,
             description = dto.description
         )
     }
@@ -24,11 +24,24 @@ object AppMapper {
         return dtos.map { toDomain(it) }
     }
 
-    private fun CategoryDto.toCategoryDomain(): Category {
+    private fun String.toCategoryDomain(): Category {
         return when (this) {
-            CategoryDto.FINANCE -> Category.FINANCE
-            CategoryDto.TRAVEL -> Category.TRAVEL
-            CategoryDto.UTILITIES -> Category.UTILITIES
+            "Финансы" -> Category.FINANCE
+            "Транспорт" -> Category.TRAVEL
+            "Утилиты" -> Category.UTILITIES
+            "Производительность" -> Category.PRODUCTIVITY
+            "Здоровье и фитнес" -> Category.HEALTH
+            "Фото и видео" -> Category.PHOTO
+            "Еда и Напитки" -> Category.FOOD
+            "Образование" -> Category.EDUCATION
+            "Образ жизни" -> Category.LIFESTYLE
+            "Шопинг" -> Category.SHOPPING
+            "Новости" -> Category.NEWS
+            "Музыка" -> Category.MUSIC
+            "Игры" -> Category.GAMES
+            "Навигация" -> Category.NAVIGATION
+
+            else -> Category.OTHER
         }
     }
 }

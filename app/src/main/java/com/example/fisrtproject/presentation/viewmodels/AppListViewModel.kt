@@ -26,8 +26,14 @@ class AppListViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<List<App>>(emptyList())
     val uiState: StateFlow<List<App>> = _uiState.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
+
     private val _uiEvent = MutableSharedFlow<UiEvent>()
     val uiEvent: SharedFlow<UiEvent> = _uiEvent.asSharedFlow()
+
+    private val _isError = MutableStateFlow(false)
+    val isError: StateFlow<Boolean> = _isError.asStateFlow()
 
     init {
         loadApps()
@@ -35,7 +41,18 @@ class AppListViewModel @Inject constructor(
 
     private fun loadApps() {
         viewModelScope.launch {
-            _uiState.value = getAppUseCase.execute()
+            _isLoading.value = true
+            _isError.value = false
+            getAppUseCase.execute()
+                .onSuccess { apps ->
+                    _uiState.value = apps
+                    _isError.value = false
+                }
+                .onFailure { error ->
+                    _isError.value = true
+                    _uiEvent.emit(UiEvent.ShowSnackbar("Ошибка загрузки: ${error.message}"))
+                }
+            _isLoading.value = false
         }
     }
 
@@ -43,5 +60,9 @@ class AppListViewModel @Inject constructor(
         viewModelScope.launch {
             _uiEvent.emit(UiEvent.ShowSnackbar("Нажатие на логотип RuStore"))
         }
+    }
+
+    fun refresh() {
+        loadApps()
     }
 }

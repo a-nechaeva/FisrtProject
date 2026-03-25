@@ -1,16 +1,32 @@
 package com.example.fisrtproject.data.model
 
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
 data class AppDetailsDto(
+    @SerializedName("id")
     val id: String,
+
+    @SerializedName("name")
     val name: String,
-    val developer: String,
-    val category: CategoryDto,
-    val ageRating: Int,
-    val size: Double,
-    val icon: Int,
-    val screenshots: List<String>? = null,
-    val description: String,
+
+    @SerializedName("developer")
+    val developer: String? = null,
+
+    @SerializedName("category")
+    val category: String,
+
+    @SerializedName("ageRating")
+    val ageRating: Int? = null,
+
+    @SerializedName("size")
+    val size: Double? = null,
+
+    @SerializedName("iconUrl")
+    val iconUrl: String,
+
+    @SerializedName("screenshotUrlList")
+    val screenshotUrlList: List<String>? = null,
+
+    @SerializedName("description")
+    val description: String
 )

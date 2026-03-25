@@ -19,12 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import coil.compose.AsyncImage
 import com.example.fisrtproject.domain.model.App
-
 
 @Composable
 fun AppListItem(
@@ -44,8 +42,8 @@ fun AppListItem(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = app.icon),
+            AsyncImage(
+                model = app.iconUrl,
                 contentDescription = app.name,
                 modifier = Modifier
                     .size(56.dp)
@@ -68,9 +66,7 @@ fun AppListItem(
                 Text(
                     text = app.category.displayName,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(

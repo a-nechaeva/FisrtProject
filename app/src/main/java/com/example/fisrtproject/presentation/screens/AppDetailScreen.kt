@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -25,21 +26,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import coil.compose.AsyncImage
 import com.example.fisrtproject.domain.model.App
 import com.example.fisrtproject.presentation.viewmodels.AppDetailViewModel
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,6 +49,7 @@ fun AppDetailScreen(
     onBackClick: () -> Unit
 ) {
     val app by viewModel.uiState.observeAsState(initial = null)
+    val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     Scaffold(
         topBar = {
@@ -69,25 +71,58 @@ fun AppDetailScreen(
             )
         }
     ) { paddingValues ->
-        app?.let { nonNullApp ->
-            AppDetailContent(
-                app = nonNullApp,
-                modifier = Modifier.padding(paddingValues)
-            )
-        } ?: run {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
+        when {
+            isLoading -> {
+                BoxLoadingContent(modifier = Modifier.padding(paddingValues))
+            }
+            app == null -> {
+                EmptyContent(
                     text = "Приложение не найдено",
-                    style = MaterialTheme.typography.bodyLarge
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
+            else -> {
+                AppDetailContent(
+                    app = app!!,
+                    modifier = Modifier.padding(paddingValues)
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun BoxLoadingContent(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(
+            color = Color(0xFF0077FF)
+        )
+    }
+}
+
+@Composable
+private fun EmptyContent(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
@@ -103,8 +138,8 @@ private fun AppDetailContent(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = app.icon),
+        AsyncImage(
+            model = app.iconUrl,
             contentDescription = app.name,
             modifier = Modifier
                 .size(120.dp)
@@ -121,10 +156,11 @@ private fun AppDetailContent(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = app.developer,
+            text = app.description,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
+
         Spacer(modifier = Modifier.height(24.dp))
 
         Card(
@@ -135,42 +171,29 @@ private fun AppDetailContent(
                 modifier = Modifier.padding(16.dp)
             ) {
                 InfoRow(
+                    label = "Разработчик",
+                    value = app.developer ?: "Неизвестный разработчик"
+                )
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                InfoRow(
                     label = "Категория",
                     value = app.category.displayName
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 InfoRow(
                     label = "Возрастное ограничение",
-                    value = "${app.ageRating}+"
+                    value = "${app.ageRating ?: 0}+"
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 InfoRow(
                     label = "Размер",
-                    value = "${app.size} МБ"
+                    value = "${app.size ?: 0.0} МБ"
                 )
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Text(
-                    text = "Описание",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = app.description,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
+
 
         if (!app.screenshots.isNullOrEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -188,13 +211,20 @@ private fun AppDetailContent(
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    app.screenshots.forEach { url ->
-                        Text(
-                            text = " $url",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
+
+                    androidx.compose.foundation.lazy.LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(app.screenshots.size) { index ->
+                            coil.compose.AsyncImage(
+                                model = app.screenshots[index],
+                                contentDescription = "Скриншот ${index + 1}",
+                                modifier = Modifier
+                                    .size(200.dp, 350.dp)
+                                    .clip(RoundedCornerShape(12.dp)),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
                     }
                 }
             }
