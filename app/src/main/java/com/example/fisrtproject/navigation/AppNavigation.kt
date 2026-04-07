@@ -34,9 +34,9 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable(Screen.AppDetail.route) { backStackEntry ->
             val appId = backStackEntry.arguments?.getString("appId") ?: return@composable
-            val viewModel : AppDetailViewModel = hiltViewModel()
+            val viewModel: AppDetailViewModel = hiltViewModel()
 
-            viewModel.loadApp(appId)
+            viewModel.fetchAppDetails(appId)
 
             AppDetailScreen(
                 viewModel = viewModel,
