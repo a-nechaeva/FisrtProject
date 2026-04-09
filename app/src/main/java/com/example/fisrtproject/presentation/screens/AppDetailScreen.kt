@@ -1,6 +1,7 @@
 package com.example.fisrtproject.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,8 +37,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.ui.text.style.TextAlign
 import coil.compose.AsyncImage
-import com.example.fisrtproject.domain.model.App
+import com.example.fisrtproject.domain.model.AppDetails
 import com.example.fisrtproject.presentation.viewmodels.AppDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,8 +49,9 @@ fun AppDetailScreen(
     viewModel: AppDetailViewModel,
     onBackClick: () -> Unit
 ) {
-    val app by viewModel.uiState.observeAsState(initial = null)
+    val appDetails by viewModel.uiState.observeAsState(initial = null)
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
+    val error by viewModel.error.observeAsState(initial = null)
 
     Scaffold(
         topBar = {
@@ -73,7 +77,17 @@ fun AppDetailScreen(
             isLoading -> {
                 BoxLoadingContent(modifier = Modifier.padding(paddingValues))
             }
-            app == null -> {
+            error != null -> {
+                ErrorContent(
+                    onRetry = {
+                        val appId = appDetails?.id ?: return@ErrorContent
+                        viewModel.fetchAppDetails(appId)
+                    },
+                    errorMessage = error!!,
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
+            appDetails == null -> {
                 EmptyContent(
                     text = "Приложение не найдено",
                     modifier = Modifier.padding(paddingValues)
@@ -81,7 +95,7 @@ fun AppDetailScreen(
             }
             else -> {
                 AppDetailContent(
-                    app = app!!,
+                    appDetails = appDetails!!,
                     modifier = Modifier.padding(paddingValues)
                 )
             }
@@ -125,8 +139,52 @@ private fun EmptyContent(
 }
 
 @Composable
+private fun ErrorContent(
+    onRetry: () -> Unit,
+    errorMessage: String,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = null,
+                modifier = Modifier.size(64.dp),
+                tint = MaterialTheme.colorScheme.error
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Ошибка загрузки",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.error
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = errorMessage,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 32.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            androidx.compose.material3.Button(
+                onClick = onRetry
+            ) {
+                Text("Повторить")
+            }
+        }
+    }
+}
+
+@Composable
 private fun AppDetailContent(
-    app: App,
+    appDetails: AppDetails,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -137,8 +195,8 @@ private fun AppDetailContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AsyncImage(
-            model = app.iconUrl,
-            contentDescription = app.name,
+            model = appDetails.iconUrl,
+            contentDescription = appDetails.name,
             modifier = Modifier
                 .size(120.dp)
                 .clip(RoundedCornerShape(16.dp)),
@@ -147,14 +205,14 @@ private fun AppDetailContent(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = app.name,
+            text = appDetails.name,
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = app.description,
+            text = appDetails.description,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
@@ -170,30 +228,28 @@ private fun AppDetailContent(
             ) {
                 InfoRow(
                     label = "Разработчик",
-                    value = app.developer ?: "Неизвестный разработчик"
+                    value = appDetails.developer
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 InfoRow(
                     label = "Категория",
-                    value = app.category.displayName
+                    value = appDetails.category.displayName
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 InfoRow(
                     label = "Возрастное ограничение",
-                    value = "${app.ageRating ?: 0}+"
+                    value = "${appDetails.ageRating}+"
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                 InfoRow(
                     label = "Размер",
-                    value = "${app.size ?: 0.0} МБ"
+                    value = "${appDetails.size} МБ"
                 )
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-
-
-        if (!app.screenshots.isNullOrEmpty()) {
+        if (!appDetails.screenshotUrlList.isNullOrEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Card(
@@ -204,7 +260,7 @@ private fun AppDetailContent(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "Скриншоты (${app.screenshots.size})",
+                        text = "Скриншоты (${appDetails.screenshotUrlList.size})",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -213,9 +269,9 @@ private fun AppDetailContent(
                     androidx.compose.foundation.lazy.LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(app.screenshots.size) { index ->
+                        items(appDetails.screenshotUrlList.size) { index ->
                             coil.compose.AsyncImage(
-                                model = app.screenshots[index],
+                                model = appDetails.screenshotUrlList[index],
                                 contentDescription = "Скриншот ${index + 1}",
                                 modifier = Modifier
                                     .size(200.dp, 350.dp)
